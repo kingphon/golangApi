@@ -7,20 +7,18 @@ import (
 
 type (
 	CabinetCreate struct {
-		Name          string `json:"name"`
-		CompanyString string `json:"company"`
-		Company       primitive.ObjectID
+		Name    string `json:"name"`
+		Company string `json:"company"`
 	}
 
 	CabinetUpdate struct {
-		ID            primitive.ObjectID
-		Name          string `json:"name"`
-		CompanyString string `json:"company"`
-		Company       primitive.ObjectID
+		ID      primitive.ObjectID
+		Name    string `json:"name"`
+		Company string `json:"company"`
 	}
 
 	CabinetUpdateActive struct {
-		ID     primitive.ObjectID `query:"id""`
+		ID     primitive.ObjectID `query:"id"`
 		Active string             `json:"active"`
 	}
 
@@ -39,7 +37,7 @@ func (c CabinetCreate) Validate() error {
 	return validation.ValidateStruct(&c,
 		validation.Field(&c.Name,
 			validation.Required.Error("tên không được trống")),
-		validation.Field(&c.CompanyString,
+		validation.Field(&c.Company,
 			validation.Required.Error("công ty không được trống")),
 	)
 }
@@ -48,7 +46,7 @@ func (c CabinetUpdate) Validate() error {
 	return validation.ValidateStruct(&c,
 		validation.Field(&c.Name,
 			validation.Required.Error("tên không được trống")),
-		validation.Field(&c.CompanyString,
+		validation.Field(&c.Company,
 			validation.Required.Error("công ty không được trống")),
 	)
 }

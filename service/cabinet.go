@@ -41,7 +41,16 @@ func (c cabinetImp) Create(ctx context.Context, payload requestmodel.CabinetCrea
 		return
 	}
 
-	docBSON := c.convertToBSON(payload)
+	oid, _ := primitive.ObjectIDFromHex(payload.Company)
+
+	count, err = dao.Company().Count(ctx, bson.M{"_id": oid})
+
+	if count == 0 {
+		err = errors.New("công ty không tồn tại")
+		return
+	}
+
+	docBSON := c.convertToBSON(payload, oid)
 
 	err = dao.Cabinet().Create(ctx, docBSON)
 
@@ -79,7 +88,16 @@ func (c cabinetImp) Update(ctx context.Context, payload requestmodel.CabinetUpda
 		return
 	}
 
-	docBSON := c.convertToBSONUpdate(payload, doc)
+	oid, _ := primitive.ObjectIDFromHex(payload.Company)
+
+	count, err := dao.Company().Count(ctx, bson.M{"_id": oid})
+
+	if count == 0 {
+		err = errors.New("công ty không tồn tại")
+		return
+	}
+
+	docBSON := c.convertToBSONUpdate(payload, doc, oid)
 
 	err = dao.Cabinet().UpdateOne(ctx, bson.M{"_id": docBSON.ID}, docBSON)
 
@@ -127,11 +145,11 @@ func (c cabinetImp) FindOneWithId(ctx context.Context, id primitive.ObjectID) (r
 	return
 }
 
-func (c cabinetImp) convertToBSON(payload requestmodel.CabinetCreate) (doc docmodel.Cabinet) {
+func (c cabinetImp) convertToBSON(payload requestmodel.CabinetCreate, companyId primitive.ObjectID) (doc docmodel.Cabinet) {
 	doc = docmodel.Cabinet{
 		ID:        primitive.NewObjectID(),
 		Name:      payload.Name,
-		Company:   payload.Company,
+		Company:   companyId,
 		Active:    "inactive",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
@@ -139,11 +157,11 @@ func (c cabinetImp) convertToBSON(payload requestmodel.CabinetCreate) (doc docmo
 	return
 }
 
-func (c cabinetImp) convertToBSONUpdate(payload requestmodel.CabinetUpdate, doc docmodel.Cabinet) (result docmodel.Cabinet) {
+func (c cabinetImp) convertToBSONUpdate(payload requestmodel.CabinetUpdate, doc docmodel.Cabinet, companyId primitive.ObjectID) (result docmodel.Cabinet) {
 	result = docmodel.Cabinet{
 		ID:        doc.ID,
 		Name:      payload.Name,
-		Company:   payload.Company,
+		Company:   companyId,
 		Active:    doc.Active,
 		CreatedAt: doc.CreatedAt,
 		UpdatedAt: time.Now(),

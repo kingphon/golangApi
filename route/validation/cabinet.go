@@ -27,14 +27,6 @@ func (Cabinet) Create(next echo.HandlerFunc) echo.HandlerFunc {
 			return util.Response400(c, nil, err.Error())
 		}
 
-		oid, err := primitive.ObjectIDFromHex(payload.CompanyString)
-
-		if err != nil {
-			return util.Response400(c, nil, "đã xảy ra lỗi")
-		}
-
-		payload.Company = oid
-
 		c.Set("payload", payload)
 		return next(c)
 	}
@@ -66,14 +58,6 @@ func (Cabinet) Update(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		payload.ID = oid
-
-		oidString, err := primitive.ObjectIDFromHex(payload.CompanyString)
-
-		if err != nil {
-			return util.Response400(c, nil, "đã xảy ra lỗi")
-		}
-
-		payload.Company = oidString
 
 		c.Set("payload", payload)
 		return next(c)
