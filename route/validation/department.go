@@ -3,6 +3,7 @@ package routevalidation
 import (
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golangApi/middleware"
 	requestmodel "golangApi/model/request"
 	"golangApi/util"
 )
@@ -13,6 +14,10 @@ type Department struct {
 func (Department) Create(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var payload requestmodel.DepartmentCreate
+
+		if err := middleware.CheckPermission(c, "department_edit"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
 
 		if err := c.Bind(&payload); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
@@ -39,6 +44,10 @@ func (Department) Update(next echo.HandlerFunc) echo.HandlerFunc {
 			id      = c.Param("id")
 			payload requestmodel.DepartmentUpdate
 		)
+
+		if err := middleware.CheckPermission(c, "department_edit"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
 
 		if err := c.Bind(&payload); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
@@ -74,6 +83,10 @@ func (Department) UpdateActive(next echo.HandlerFunc) echo.HandlerFunc {
 			payload requestmodel.DepartmentUpdateActive
 		)
 
+		if err := middleware.CheckPermission(c, "department_edit"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
+
 		if err := c.Bind(&payload); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
 		}
@@ -99,6 +112,10 @@ func (Department) All(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var query requestmodel.DepartmentAll
 
+		if err := middleware.CheckPermission(c, "department_view"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
+
 		if err := c.Bind(&query); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
 		}
@@ -113,6 +130,10 @@ func (Department) Detail(next echo.HandlerFunc) echo.HandlerFunc {
 		var (
 			id = c.Param("id")
 		)
+
+		if err := middleware.CheckPermission(c, "department_view"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
 
 		oid, err := primitive.ObjectIDFromHex(id)
 

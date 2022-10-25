@@ -8,14 +8,14 @@ import (
 	"golangApi/util"
 )
 
-type Drawer struct {
+type Document struct {
 }
 
-func (Drawer) Create(next echo.HandlerFunc) echo.HandlerFunc {
+func (Document) Create(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var payload requestmodel.DrawerCreate
+		var payload requestmodel.DocumentCreate
 
-		if err := middleware.CheckPermission(c, "drawer_edit"); err != nil {
+		if err := middleware.CheckPermission(c, "document_edit"); err != nil {
 			return util.Response403(c, nil, err.Error())
 		}
 
@@ -32,14 +32,14 @@ func (Drawer) Create(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func (Drawer) Update(next echo.HandlerFunc) echo.HandlerFunc {
+func (Document) Update(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var (
 			id      = c.Param("id")
-			payload requestmodel.DrawerUpdate
+			payload requestmodel.DocumentUpdate
 		)
 
-		if err := middleware.CheckPermission(c, "drawer_edit"); err != nil {
+		if err := middleware.CheckPermission(c, "document_edit"); err != nil {
 			return util.Response403(c, nil, err.Error())
 		}
 
@@ -64,14 +64,14 @@ func (Drawer) Update(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func (Drawer) UpdateActive(next echo.HandlerFunc) echo.HandlerFunc {
+func (Document) UpdateActive(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var (
 			id      = c.Param("id")
-			payload requestmodel.DrawerUpdateActive
+			payload requestmodel.DocumentUpdateStatus
 		)
 
-		if err := middleware.CheckPermission(c, "drawer_edit"); err != nil {
+		if err := middleware.CheckPermission(c, "document_edit"); err != nil {
 			return util.Response403(c, nil, err.Error())
 		}
 
@@ -96,16 +96,16 @@ func (Drawer) UpdateActive(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func (Drawer) All(next echo.HandlerFunc) echo.HandlerFunc {
+func (Document) All(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var query requestmodel.DrawerAll
-
-		if err := middleware.CheckPermission(c, "drawer_view"); err != nil {
-			return util.Response403(c, nil, err.Error())
-		}
+		var query requestmodel.DocumentAll
 
 		if err := c.Bind(&query); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
+		}
+
+		if err := middleware.CheckPermission(c, "document_view"); err != nil {
+			return util.Response403(c, nil, err.Error())
 		}
 
 		c.Set("query", query)
@@ -113,14 +113,14 @@ func (Drawer) All(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func (Drawer) Detail(next echo.HandlerFunc) echo.HandlerFunc {
+func (Document) Detail(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var (
 			id      = c.Param("id")
-			payload requestmodel.DrawerDetail
+			payload requestmodel.DocumentDetail
 		)
 
-		if err := middleware.CheckPermission(c, "drawer_edit"); err != nil {
+		if err := middleware.CheckPermission(c, "document_view"); err != nil {
 			return util.Response403(c, nil, err.Error())
 		}
 

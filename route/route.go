@@ -13,4 +13,5 @@ func Route(e *echo.Echo) {
 	department(e)
 	staff(e)
 	permission(e)
+	document(e)
 }

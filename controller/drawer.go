@@ -10,6 +10,12 @@ import (
 
 type Drawer struct{}
 
+// All godoc
+// @tags Drawer
+// @summary Get list
+// @security ApiKeyAuth
+// @param payload query requestmodel.DrawerAll true "Payload"
+// @router /drawer [get]
 func (co Drawer) All(c echo.Context) error {
 	var (
 		query = c.Get("query").(requestmodel.DrawerAll)
@@ -25,6 +31,12 @@ func (co Drawer) All(c echo.Context) error {
 	return util.Response200(c, data, "")
 }
 
+// Create godoc
+// @tags Drawer
+// @summary Create
+// @security ApiKeyAuth
+// @param payload body requestmodel.DrawerCreate true "Payload"
+// @router /drawer [post]
 func (co Drawer) Create(c echo.Context) error {
 	var (
 		payload = c.Get("payload").(requestmodel.DrawerCreate)
@@ -40,6 +52,13 @@ func (co Drawer) Create(c echo.Context) error {
 	return util.Response200(c, nil, "")
 }
 
+// Update godoc
+// @tags Drawer
+// @summary Update
+// @security ApiKeyAuth
+// @param id   path      string  true  "Drawer ID"
+// @param payload body requestmodel.DrawerUpdate true "Payload"
+// @router /drawer/{id} [put]
 func (co Drawer) Update(c echo.Context) error {
 	var (
 		payload = c.Get("payload").(requestmodel.DrawerUpdate)
@@ -55,6 +74,13 @@ func (co Drawer) Update(c echo.Context) error {
 	return util.Response200(c, nil, "")
 }
 
+// UpdateActive godoc
+// @tags Drawer
+// @summary UpdateActive
+// @security ApiKeyAuth
+// @param id   path      string  true  "Drawer ID"
+// @param payload body requestmodel.DrawerUpdateActive true "Payload"
+// @router /drawer/{id}/active [patch]
 func (co Drawer) UpdateActive(c echo.Context) error {
 	var (
 		payload = c.Get("payload").(requestmodel.DrawerUpdateActive)
@@ -70,6 +96,12 @@ func (co Drawer) UpdateActive(c echo.Context) error {
 	return util.Response200(c, nil, "")
 }
 
+// Detail godoc
+// @tags Drawer
+// @summary Detail
+// @security ApiKeyAuth
+// @param id   path      string  true  "Drawer ID"
+// @router /drawer/{id} [get]
 func (co Drawer) Detail(c echo.Context) error {
 	var (
 		payload = c.Get("payload").(requestmodel.DrawerDetail)

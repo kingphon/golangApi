@@ -3,6 +3,7 @@ package routevalidation
 import (
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golangApi/middleware"
 	requestmodel "golangApi/model/request"
 	"golangApi/util"
 )
@@ -13,6 +14,10 @@ type Staff struct {
 func (Staff) Create(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var payload requestmodel.StaffCreate
+
+		if err := middleware.CheckPermission(c, "staff_edit"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
 
 		if err := c.Bind(&payload); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
@@ -39,6 +44,10 @@ func (Staff) Update(next echo.HandlerFunc) echo.HandlerFunc {
 			id      = c.Param("id")
 			payload requestmodel.StaffUpdate
 		)
+
+		if err := middleware.CheckPermission(c, "staff_edit"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
 
 		if err := c.Bind(&payload); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
@@ -74,6 +83,10 @@ func (Staff) UpdateActive(next echo.HandlerFunc) echo.HandlerFunc {
 			payload requestmodel.StaffUpdateActive
 		)
 
+		if err := middleware.CheckPermission(c, "staff_edit"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
+
 		if err := c.Bind(&payload); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
 		}
@@ -101,6 +114,10 @@ func (Staff) UpdatePassword(next echo.HandlerFunc) echo.HandlerFunc {
 			id      = c.Param("id")
 			payload requestmodel.StaffUpdatePassword
 		)
+
+		if err := middleware.CheckPermission(c, "staff_edit"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
 
 		if err := c.Bind(&payload); err != nil {
 			return util.Response400(c, nil, "đã xảy ra lỗi")
@@ -160,6 +177,10 @@ func (Staff) Detail(next echo.HandlerFunc) echo.HandlerFunc {
 		var (
 			id = c.Param("id")
 		)
+
+		if err := middleware.CheckPermission(c, "staff_view"); err != nil {
+			return util.Response403(c, nil, err.Error())
+		}
 
 		oid, err := primitive.ObjectIDFromHex(id)
 

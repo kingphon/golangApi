@@ -7,16 +7,14 @@ import (
 
 type (
 	DrawerCreate struct {
-		Name          string `json:"name"`
-		CabinetString string `json:"cabinet"`
-		Cabinet       primitive.ObjectID
+		Name    string `json:"name"`
+		Cabinet string `json:"cabinet"`
 	}
 
 	DrawerUpdate struct {
-		ID            primitive.ObjectID
-		Name          string `json:"name"`
-		CabinetString string `json:"cabinet"`
-		Cabinet       primitive.ObjectID
+		ID      primitive.ObjectID
+		Name    string `json:"name"`
+		Cabinet string `json:"cabinet"`
 	}
 
 	DrawerUpdateActive struct {
@@ -39,7 +37,7 @@ func (c DrawerCreate) Validate() error {
 	return validation.ValidateStruct(&c,
 		validation.Field(&c.Name,
 			validation.Required.Error("tên không được trống")),
-		validation.Field(&c.CabinetString,
+		validation.Field(&c.Cabinet,
 			validation.Required.Error("kệ không được trống")),
 	)
 }

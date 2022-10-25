@@ -7,11 +7,11 @@ import (
 	routevalidation "golangApi/route/validation"
 )
 
-func cabinet(e *echo.Echo) {
+func document(e *echo.Echo) {
 	var (
-		g = e.Group("/cabinet")
-		c = controller.Cabinet{}
-		v = routevalidation.Cabinet{}
+		g = e.Group("/document")
+		c = controller.Document{}
+		v = routevalidation.Document{}
 	)
 
 	g.Use(middleware.IsLoggedIn, middleware.Authentication)

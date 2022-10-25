@@ -3,6 +3,7 @@ package route
 import (
 	"github.com/labstack/echo/v4"
 	"golangApi/controller"
+	"golangApi/middleware"
 	routevalidation "golangApi/route/validation"
 )
 
@@ -12,6 +13,8 @@ func drawer(e *echo.Echo) {
 		c = controller.Drawer{}
 		v = routevalidation.Drawer{}
 	)
+
+	g.Use(middleware.IsLoggedIn, middleware.Authentication)
 
 	g.GET("", c.All, v.All)
 
