@@ -1,0 +1,440 @@
+definitions:
+  requestmodel.CompanyCreate:
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  requestmodel.CompanyUpdate:
+    properties:
+      name:
+        type: string
+    type: object
+  requestmodel.CompanyUpdateActive:
+    properties:
+      active:
+        type: string
+    type: object
+  requestmodel.DepartmentCreate:
+    properties:
+      company:
+        type: string
+      name:
+        type: string
+      permission:
+        items:
+          type: string
+        type: array
+    type: object
+  requestmodel.DepartmentUpdate:
+    properties:
+      company:
+        type: string
+      name:
+        type: string
+      permission:
+        items:
+          type: string
+        type: array
+    type: object
+  requestmodel.DepartmentUpdateActive:
+    properties:
+      active:
+        type: string
+    type: object
+  requestmodel.PermissionCreate:
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+    type: object
+  requestmodel.PermissionUpdate:
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+    type: object
+  requestmodel.StaffCreate:
+    properties:
+      department:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  requestmodel.StaffLogin:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  requestmodel.StaffUpdate:
+    properties:
+      department:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+    type: object
+  requestmodel.StaffUpdateActive:
+    properties:
+      active:
+        type: string
+    type: object
+  requestmodel.StaffUpdatePassword:
+    properties:
+      confirmOldPassword:
+        type: string
+      oldPassword:
+        type: string
+      password:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Document Admin server
+  title: Swagger Document Admin API
+  version: "1.0"
+paths:
+  /company:
+    get:
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Get list
+      tags:
+      - Company
+    post:
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.CompanyCreate'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Create
+      tags:
+      - Company
+  /company/{id}:
+    get:
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Detail
+      tags:
+      - Company
+    put:
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.CompanyUpdate'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Update
+      tags:
+      - Company
+  /company/{id}/active:
+    patch:
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.CompanyUpdateActive'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateActive
+      tags:
+      - Company
+  /department:
+    get:
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Get list
+      tags:
+      - Department
+    post:
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.DepartmentCreate'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Create
+      tags:
+      - Department
+  /department/{id}:
+    get:
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Detail
+      tags:
+      - Department
+    put:
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.DepartmentUpdate'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Update
+      tags:
+      - Department
+  /department/{id}/active:
+    patch:
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.DepartmentUpdateActive'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateActive
+      tags:
+      - Department
+  /login:
+    post:
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.StaffLogin'
+      responses: {}
+      summary: Login
+      tags:
+      - Staff
+  /permission:
+    get:
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: All
+      tags:
+      - Permission
+    post:
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.PermissionCreate'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Create
+      tags:
+      - Permission
+  /permission/{id}:
+    put:
+      parameters:
+      - description: Permission ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.PermissionUpdate'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Update
+      tags:
+      - Permission
+  /staff:
+    get:
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Get list
+      tags:
+      - Staff
+    post:
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.StaffCreate'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Create
+      tags:
+      - Staff
+  /staff/{id}:
+    get:
+      parameters:
+      - description: Staff ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Detail
+      tags:
+      - Staff
+    put:
+      parameters:
+      - description: Staff ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.StaffUpdate'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Update
+      tags:
+      - Staff
+  /staff/{id}/active:
+    patch:
+      parameters:
+      - description: Staff ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.StaffUpdateActive'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateActive
+      tags:
+      - Staff
+  /staff/{id}/password:
+    patch:
+      parameters:
+      - description: Staff ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.StaffUpdatePassword'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: UpdatePassword
+      tags:
+      - Staff
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
